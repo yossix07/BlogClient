@@ -1,0 +1,22 @@
+.feed-page {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.main-feed {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.search-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.search-wrapper > * {
+    padding: 5px;
+}
