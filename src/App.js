@@ -1,24 +1,30 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from "react";
+import { BrowserRouter, Route, Routes, } from "react-router-dom";
+import LogIn from "./logIn/Login";
+import SignUp from "./signUp/SignUp";
+import "./App.css"
+import 'bootstrap/dist/css/bootstrap.css';
 
-function App() {
+
+const App = () => {
+
+  const [username, setUsername] = useState("");
+
+  const changeUsername = (user) => {
+    setUsername(user);
+    sessionStorage.setItem("username", user);
+  }
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={ <LogIn setUsername={ changeUsername }/> }></Route>
+          <Route path="/signup" element={ <SignUp setUsername={ changeUsername }/> }></Route>
+          {/* <Route path="/blog" element={}></Route> */}
+        </Routes>
+      </BrowserRouter>
+    </>
   );
 }
 
