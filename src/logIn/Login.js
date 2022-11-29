@@ -1,46 +1,23 @@
-import React, { useState, useRef } from "react";
-import LogInForm from "./LogInForm";
-// import $ from "jquery"
-// import LogInFailed from "./LogInFailure";
+import React, { useRef } from "react";
 import { useNavigate } from "react-router-dom";
+import LogInForm from "./LogInForm";
 import "./login.css"
 
-
-const LogIn = ({ setUsername, setToken }) => {
-  const [isOpen, setIsOpen] = useState(false);
+const LogIn = ({ setUsername }) => {
+  let navigate = useNavigate();
 
   const name = useRef("");
   const pass = useRef("");
 
-  // const showModal = () => {
-  //   setIsOpen(true);
-  // };
-  // const hideModal = () => {
-  //   setIsOpen(false);
-  // };
-
-
-
-  // let navigate = useNavigate();
-
-  // $(document).ready(function () {
-  //   $("#logInForm").unbind().on("submit", async function (event) {
-  //     event.preventDefault();
-  //     var token = await LogInAsync(name?.current?.value, pass?.current?.value);
-  //     if(token != -1) {
-  //       setUsername(name?.current?.value);
-  //       setToken(token);
-  //       navigate("/chat", { replace: true });
-  //     } else {
-  //       showModal();
-  //     }
-
-  //   });
-  // });
+  const handleSubmitLogIn = () => {
+    // TODO - check if username and password exist in DB
+    setUsername(name.current.value);
+    navigate("/blog", { replace: true });
+  }
 
   return (
     <div className="login-page">
-      <LogInForm name={ name } pass={ pass }></LogInForm>
+      <LogInForm name={name} pass={pass} handleSubmit={handleSubmitLogIn}></LogInForm>
     </div>
   );
 }

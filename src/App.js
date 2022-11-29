@@ -11,18 +11,13 @@ const App = () => {
 
   const [username, setUsername] = useState("");
 
-  const changeUsername = (user) => {
-    setUsername(user);
-    sessionStorage.setItem("username", user);
-  }
-
   return (
     <>
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={ <LogIn setUsername={ changeUsername }/> }></Route>
-          <Route path="/signup" element={ <SignUp setUsername={ changeUsername }/> }></Route>
-          <Route path="/blog" element={<FeedPage></FeedPage>}></Route>
+          <Route path="/" element={ <LogIn setUsername={ setUsername }/> }></Route>
+          <Route path="/signup" element={ <SignUp setUsername={ setUsername }/> }></Route>
+          <Route path="/blog" element={<FeedPage username={ username }></FeedPage>}></Route>
         </Routes>
       </BrowserRouter>
     </>

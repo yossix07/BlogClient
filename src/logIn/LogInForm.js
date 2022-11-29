@@ -3,14 +3,14 @@ import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
 import "./loginForm.css";
 
-const LogInForm = ({ name, pass }) => {
+const LogInForm = ({ name, pass, handleSubmit }) => {
   return (
     <Card>
       <Card.Body>
         <h2 className="fw-bold mb-2 text-uppercase">Log-In</h2>
         <h6>Please Fill Your Info!</h6>
         <br></br>
-        <div className="login-form">
+        <div className="login-form" onSubmit={handleSubmit}>
           <form id="logInForm">
             <div className="form-floating form-white text-dark mb-4">
               <input type="text" ref={name} className="form-control" id="floatingInput" placeholder="Username" required autoFocus />

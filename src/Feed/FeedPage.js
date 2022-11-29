@@ -2,18 +2,23 @@ import React, { useEffect, useRef, useState } from "react";
 import ProjectsList from "./ProjectsList";
 import { Button, Dropdown, ButtonGroup } from "react-bootstrap";
 import Form from 'react-bootstrap/Form';
+import { getAllProjects } from "../DB";
 import "./feedPage.css";
+import ProjectInfoPage from "../ProjectInfoPage/ProjectInfoPage";
 
-const FeedPage = () => {
+const FeedPage = ({ username }) => {
     const [projects, setProjects] = useState([]);
+    const [selectedProject, setSelectedProject] = useState(null);
 
     const searchInput = useRef("");
     const [searchCategory, setSearchCategory] = useState("Name");
     const [isForkable, setIsForkable] = useState(false);
     const [isOpenIssue, setIsOpenIssue] = useState(false);
 
+    const [isModeList, setIsModeList] = useState(true);
+
     useEffect(() => {
-        setProjects(getProjects());
+        setProjects(getAllProjects());
     }, []);
 
     const handleDropdownSelect = (e) => {
@@ -33,25 +38,21 @@ const FeedPage = () => {
         }
     }
 
-    const getProjects = () => {
-        // send query to DB to get all projects
-        return [
-            { "id": 1, "name": "project_1", "homepage_url": "project_1.co.il", "repository_url": "git/project_1.com", "langague": "English", "status": "progress" },
-            { "id": 2, "name": "project_2", "homepage_url": "project_2.com", "repository_url": "bitbucket/project_2.com", "langague": "Hebrew", "status": "Done" },
-            { "id": 3, "name": "project_3", "homepage_url": "project_3.org", "repository_url": "git/project_3.com", "langague": "English", "status": "In progress" },
-            { "id": 4, "name": "project_4", "homepage_url": "project_4.com", "repository_url": "bitbucket/project_4.com", "langague": "English", "status": "progress" },
-            { "id": 5, "name": "project_5", "homepage_url": "project_5.com", "repository_url": "bitbucket/project_5.com", "langague": "English", "status": "Done" },
-            { "id": 6, "name": "project_6", "homepage_url": "project_6.org", "repository_url": "git/project_6.com", "langague": "English", "status": "Done" },
-            { "id": 7, "name": "project_7", "homepage_url": "project_7.co.il", "repository_url": "bitbucket/project_7.com", "langague": "Hebrew", "status": "progress" },
-            { "id": 8, "name": "project_8", "homepage_url": "project_8.com", "repository_url": "git/project_8.com", "langague": "English", "status": "Done" },
-        ]
+    const handleMoreInfoClick = (projectId) => {
+        setSelectedProject(projects.find(item => item.id === projectId));
+        setIsModeList(false);
+    }
+
+    const handleExitMoreInfo= () => {
+        setSelectedProject(null);
+        setIsModeList(true);
     }
 
     return (
         <div className="feed-page">
             <div className="main-feed">
                 <div className="search-wrapper">
-                    <input ref={searchInput} placeholder="Enter Keywords"/>
+                    <input ref={searchInput} placeholder="Enter Keywords" />
                     <div className="checkboxes-wrapper">
                         <Form.Check className="text-white" name="Forkable" type={'checkbox'} label={`Forkable`} onChange={hangleCheckboxChange} />
                         <Form.Check className="text-white" name="OpenIssues" type={'checkbox'} label={`Open Issues`} onChange={hangleCheckboxChange} />
@@ -67,9 +68,9 @@ const FeedPage = () => {
                         </Dropdown.Menu>
                     </Dropdown>
                 </div>
-                <ProjectsList className="projects-list" projects={projects}></ProjectsList>
+                { isModeList && <ProjectsList className="projects-list" projects={projects} handleProjectInfoClick={handleMoreInfoClick}></ProjectsList> }
+                { !isModeList && <ProjectInfoPage project={selectedProject} handleExit={handleExitMoreInfo}></ProjectInfoPage> }
             </div>
-
         </div>
     )
 }
