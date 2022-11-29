@@ -43,7 +43,7 @@ const FeedPage = ({ username }) => {
         setIsModeList(false);
     }
 
-    const handleExitMoreInfo= () => {
+    const handleExitMoreInfo = () => {
         setSelectedProject(null);
         setIsModeList(true);
     }
@@ -51,25 +51,29 @@ const FeedPage = ({ username }) => {
     return (
         <div className="feed-page">
             <div className="main-feed">
-                <div className="search-wrapper">
-                    <input ref={searchInput} placeholder="Enter Keywords" />
-                    <div className="checkboxes-wrapper">
-                        <Form.Check className="text-white" name="Forkable" type={'checkbox'} label={`Forkable`} onChange={hangleCheckboxChange} />
-                        <Form.Check className="text-white" name="OpenIssues" type={'checkbox'} label={`Open Issues`} onChange={hangleCheckboxChange} />
-                    </div>
-                    <Dropdown as={ButtonGroup} onSelect={handleDropdownSelect}>
-                        <Button onClick={handleSearch}>Search</Button>
-                        <Dropdown.Toggle split id="dropdown-split-basic" />
-                        <Dropdown.Menu>
-                            <Dropdown.Item eventKey="Name">Name</Dropdown.Item>
-                            <Dropdown.Item eventKey="Platform">Platform</Dropdown.Item>
-                            <Dropdown.Item eventKey="Langague">Langague</Dropdown.Item>
-                            <Dropdown.Item eventKey="Status">Status</Dropdown.Item>
-                        </Dropdown.Menu>
-                    </Dropdown>
-                </div>
-                { isModeList && <ProjectsList className="projects-list" projects={projects} handleProjectInfoClick={handleMoreInfoClick}></ProjectsList> }
-                { !isModeList && <ProjectInfoPage project={selectedProject} handleExit={handleExitMoreInfo}></ProjectInfoPage> }
+                {isModeList &&
+                    <>
+                        <div className="search-wrapper">
+                            <input ref={searchInput} placeholder="Enter Keywords" />
+                            <div className="checkboxes-wrapper">
+                                <Form.Check className="text-white" name="Forkable" type={'checkbox'} label={`Forkable`} onChange={hangleCheckboxChange} />
+                                <Form.Check className="text-white" name="OpenIssues" type={'checkbox'} label={`Open Issues`} onChange={hangleCheckboxChange} />
+                            </div>
+                            <Dropdown as={ButtonGroup} onSelect={handleDropdownSelect}>
+                                <Button onClick={handleSearch}>Search</Button>
+                                <Dropdown.Toggle split id="dropdown-split-basic" />
+                                <Dropdown.Menu>
+                                    <Dropdown.Item eventKey="Name">Name</Dropdown.Item>
+                                    <Dropdown.Item eventKey="Platform">Platform</Dropdown.Item>
+                                    <Dropdown.Item eventKey="Langague">Langague</Dropdown.Item>
+                                    <Dropdown.Item eventKey="Status">Status</Dropdown.Item>
+                                </Dropdown.Menu>
+                            </Dropdown>
+                        </div>
+                        <ProjectsList className="projects-list" projects={projects} handleProjectInfoClick={handleMoreInfoClick}></ProjectsList>
+                    </>
+                }
+                {!isModeList && <ProjectInfoPage project={selectedProject} username={username} handleExit={handleExitMoreInfo}></ProjectInfoPage>}
             </div>
         </div>
     )
