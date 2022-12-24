@@ -2,7 +2,7 @@ import { Card, Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import "./signUpForm.css";
 
-const SignUpForm = ({ name, pass, rePass, handleSubmit }) => {
+const SignUpForm = ({ username, password, rePass, fullName, handleSubmit }) => {
   return (
     <Card>
       <Card.Body>
@@ -13,21 +13,25 @@ const SignUpForm = ({ name, pass, rePass, handleSubmit }) => {
 
           <form id="signUpForm" onSubmit={handleSubmit} noValidate>
             <div className="form-floating form-white text-dark mb-4">
-              <input ref={name} id="SignUpUsername" type="text" placeholder="Enter Username" className="form-control" autoFocus />
+              <input ref={username} id="SignUpUsername" type="text" placeholder="Enter Username" className="form-control" autoFocus />
               <label htmlFor="SignUpUsername" className="form-label">Username</label>
             </div>
 
             <div className="form-floating form-white text-dark mb-4">
-              <input ref={pass} id="SignUpPassword" type="password" placeholder="Enter Password" className="form-control" />
+              <input ref={password} id="SignUpPassword" type="password" placeholder="Enter Password" className="form-control" />
               <label htmlFor="SignUpPassword" className="form-label">Password</label>
-
             </div>
 
             <div className="form-floating form-white text-dark mb-4">
               <input ref={rePass} id="SignUpRePassword" type="password" placeholder="Re-Enter Password" className="form-control" />
               <label htmlFor="SignUpRePassword" className="form-label">Verify Password</label>
-
             </div>
+
+            <div className="form-floating form-white text-dark mb-4">
+              <input ref={fullName} id="SignUpFullName" type="text" placeholder="Enter Name" className="form-control" />
+              <label htmlFor="SignUpFullName" className="form-label">Name</label>
+            </div>
+
             <div className="button-wrapper">
               <Button id="signUpButton" variant="primary" type="submit">Sign-Up</Button>
             </div>

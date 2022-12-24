@@ -1,19 +1,22 @@
 import React, { useRef } from "react";
-import { useNavigate } from "react-router-dom";
 import LogInForm from "./LogInForm";
+import { useNavigate } from "react-router-dom";
+import { logIn } from "../DB";
 import "./login.css"
 
 const LogIn = ({ setUsername }) => {
   let navigate = useNavigate();
-
   const name = useRef("");
   const pass = useRef("");
 
-  const handleSubmitLogIn = () => {
-    // TODO - check if username and password exist in DB
-    setUsername(name.current.value);
-    navigate("/blog", { replace: true });
-  }
+  async function handleSubmitLogIn() {
+    const loginResponse = await logIn(name.current.value, pass.current.value);
+    console.log("loginResponse", loginResponse);
+      if(!(loginResponse instanceof Promise) && loginResponse) {
+        setUsername(name.current.value);
+        window.location.replace('http://localhost:3000/blog');
+      }
+    };
 
   return (
     <div className="login-page">

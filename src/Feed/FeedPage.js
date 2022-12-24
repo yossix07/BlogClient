@@ -18,6 +18,7 @@ const FeedPage = ({ username }) => {
     const [isModeList, setIsModeList] = useState(true);
 
     useEffect(() => {
+        console.log("current logged user:", username);
         setProjects(getAllProjects());
     }, []);
 
