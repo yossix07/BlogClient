@@ -1,5 +1,5 @@
 const myServer = "localhost";
-const myPort = 5146;
+const myPort = 5113;
 const urlPrefix = "http://" + myServer + ":" + myPort + "/api/";
 
 export async function signUp(username, password, fullName) {
@@ -18,19 +18,20 @@ export async function signUp(username, password, fullName) {
 }
 
 export async function logIn(username, password) {
-    const requestOptions = {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ "userName": username, "password": password, "full_Name": "string"})
-    };
-    try {
-      const response = await fetch("http://localhost:5146/api/Users/SignIn", requestOptions);
-      return response.status;
-    } catch (error) {
-      console.error(error);
-      return false;
-    }
+  const requestOptions = {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ "userName": username, "password": password, "full_Name": "string"})
+  };
+  try {
+    console.log(1)
+    const response = await fetch("http://localhost:5113/api/Users/SignIn", requestOptions);
+    return response.status;
+  } catch (error) {
+    console.error(error);
+    return false;
   }
+}
 
   export async function getAllProjects(start_index) {
     // const requestOptions = {
