@@ -1,15 +1,18 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState,useRef } from "react";
 import Button from 'react-bootstrap/Button';
 import Badge from 'react-bootstrap/Badge';
 import Card from 'react-bootstrap/Card';
 import ListGroup from 'react-bootstrap/ListGroup';
 import "./projectInfoPage.css";
 import CommentItem from "./CommentItem";
+import { toggleLike } from "../DB"
 
 const ProjectInfoPage = ({ project, username, handleExit }) => {
 
     const [showComments, setShowComments] = useState(false);
     const [comments, setComments] = useState([]);
+    const comment = useRef("");
+    
 
     useEffect(() => {
         // get comments from DB 
@@ -22,11 +25,17 @@ const ProjectInfoPage = ({ project, username, handleExit }) => {
     },[]);
 
     const handleLikeClick = () => {
-        // if username already liked this project, then -1. otherwise +1
+        const currentTimestamp = new Date().toISOString();
+        toggleLike(username, project.id, currentTimestamp);
     }
 
     const constCommentsClick = () => {
         setShowComments(!showComments);
+    }
+
+    async function hangleAddComment() {
+        console.log(comment.current.value);
+        comment.current.value = ""
     }
 
     return (
@@ -60,7 +69,7 @@ const ProjectInfoPage = ({ project, username, handleExit }) => {
                     </ListGroup>
                 </Card.Body>
                 <div className="buttons-wrapper">
-                    <Button variant="primary">
+                    <Button variant="primary" onClick={handleLikeClick}>
                         Likes <Badge bg="secondary">9</Badge>
                     </Button>
                     <Button variant="primary" onClick={constCommentsClick}>Comments <Badge bg="secondary">3</Badge> </Button>
@@ -68,6 +77,10 @@ const ProjectInfoPage = ({ project, username, handleExit }) => {
             </Card>
             {showComments && 
                 <Card className="comments-list">
+                    <Card.Header>
+                        <input ref={comment} placeholder="Enter Comment"></input>
+                        <Button variant="primary" onClick={hangleAddComment}>Add Comment</Button>
+                        </Card.Header>
                     <Card.Body>
                         {
                         comments?.map(comment =>

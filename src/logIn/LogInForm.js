@@ -32,7 +32,6 @@ const LogInForm = ({ name, pass, handleSubmit }) => {
         </div>
       </Card.Body>
     </Card>
-
   );
 }
 

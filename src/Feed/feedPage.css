@@ -20,3 +20,16 @@
 .search-wrapper > * {
     padding: 5px;
 }
+
+.queries-buttons-wrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.projects-buttons-wrraper {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}

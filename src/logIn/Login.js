@@ -1,22 +1,16 @@
 import React, { useRef } from "react";
 import LogInForm from "./LogInForm";
-import { useNavigate } from "react-router-dom";
 import { logIn } from "../DB";
-import "./login.css"
+import "./login.css";
 
 const LogIn = ({ setUsername }) => {
-  let navigate = useNavigate();
   const name = useRef("");
   const pass = useRef("");
 
   async function handleSubmitLogIn() {
-    console.log(1)
-
     const loginResponse = await logIn(name.current.value, pass.current.value);
     console.log("loginResponse", loginResponse);
-      if(!(loginResponse instanceof Promise) && loginResponse) {
-        console.log(2)
-
+      if(!(loginResponse instanceof Promise) && loginResponse === 200) {
         setUsername(name.current.value);
         window.location.replace('http://localhost:3000/blog');
       }

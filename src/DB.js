@@ -20,12 +20,12 @@ export async function signUp(username, password, fullName) {
 export async function logIn(username, password) {
   const requestOptions = {
     method: 'POST',
+    
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ "userName": username, "password": password, "full_Name": "string"})
+    body: JSON.stringify({ "UserName": username, "Password": password, "Full_Name": "string"})
   };
   try {
-    console.log(3)
-    const response = await fetch("http://localhost:5113/api/Users/SignIn", requestOptions);
+    const response = await fetch(urlPrefix + "Users/SignIn", requestOptions);
     return response.status;
   } catch (error) {
     console.error(error);
@@ -36,11 +36,10 @@ export async function logIn(username, password) {
   export async function getAllProjects(start_index) {
     // const requestOptions = {
     //     method: 'Get',
-    //     headers: { 'Content-Type': 'application/json'},
-    //     body: JSON.stringify({ "start_index": start_index })
+    //     headers: { 'Content-Type': 'application/json'}
     //   };
     
-    //   const response = await fetch(urlPrefix + "/projects", requestOptions);
+    //   const response = await fetch(urlPrefix + "Projects/" + start_index , requestOptions);
     
     //   if(response.ok) {
     //     const json = await response.json()
@@ -60,32 +59,51 @@ export async function logIn(username, password) {
     ]
 }
 
+export async function addProject() {
+  // POST AddProject
+}
+
 export async function getProjectInfo(id) {
     const requestOptions = {
         method: 'Get',
         headers: { 'Content-Type': 'application/json'}
     };
     
-      const response = await fetch(urlPrefix + "/projects/" + id, requestOptions);
+      const response = await fetch(urlPrefix + "/ProjectInfo/" + id, requestOptions);
     
       if(response.ok) {
         const json = await response.json()
         return json;
       }
-      return -1;
+      return false;
 }
 
-export async function getProjectLikesCounter(id) {
+export async function toggleLike(username, projectID, timestamp) {
     const requestOptions = {
-        method: 'Get',
-        headers: { 'Content-Type': 'application/json'}
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json'},
+        body: JSON.stringify({ "userName": username, "project_Id": projectID, "time": timestamp })
     };
     
-      const response = await fetch(urlPrefix + "/likes/" + id, requestOptions);
+      const response = await fetch(urlPrefix + "/ToggleLike", requestOptions);
     
       if(response.ok) {
-        const json = await response.json()
-        return json;
+        return true;
       }
-      return -1;
+      return false;
+}
+
+export async function addComment(username, projectID, timestamp, text) {
+    const requestOptions = {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json'},
+      body: JSON.stringify({ "userName": username, "project_Id": projectID, "text": text, "time": timestamp })
+  };
+
+    const response = await fetch(urlPrefix + "/Comments/AddComment", requestOptions);
+
+    if(response.ok) {
+      return true;
+    }
+    return false;
 }
