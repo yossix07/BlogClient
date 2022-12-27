@@ -24,7 +24,7 @@ export async function logIn(username, password) {
     body: JSON.stringify({ "userName": username, "password": password, "full_Name": "string"})
   };
   try {
-    console.log(1)
+    console.log(3)
     const response = await fetch("http://localhost:5113/api/Users/SignIn", requestOptions);
     return response.status;
   } catch (error) {

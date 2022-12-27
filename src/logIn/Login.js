@@ -10,11 +10,12 @@ const LogIn = ({ setUsername }) => {
   const pass = useRef("");
 
   async function handleSubmitLogIn() {
+    console.log(1)
 
     const loginResponse = await logIn(name.current.value, pass.current.value);
     console.log("loginResponse", loginResponse);
       if(!(loginResponse instanceof Promise) && loginResponse) {
-        console.log(123)
+        console.log(2)
 
         setUsername(name.current.value);
         window.location.replace('http://localhost:3000/blog');
