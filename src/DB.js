@@ -25,10 +25,13 @@ export async function logIn(username, password) {
     body: JSON.stringify({ "UserName": username, "Password": password, "Full_Name": "string"})
   };
   try {
+    console.log("bbbb")
+
     const response = await fetch(urlPrefix + "Users/SignIn", requestOptions);
-    console.log(response)
+    console.log("cccc")
     return response.status;
   } catch (error) {
+    console.log("dddd")
     console.error(error);
     return false;
   }
@@ -70,7 +73,7 @@ export async function getProjectInfo(id) {
         headers: { 'Content-Type': 'application/json'}
     };
     
-      const response = await fetch(urlPrefix + "/ProjectInfo/" + id, requestOptions);
+      const response = await fetch(urlPrefix + "ProjectInfos/" + id, requestOptions);
     
       if(response.ok) {
         const json = await response.json()

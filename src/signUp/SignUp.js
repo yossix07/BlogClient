@@ -13,11 +13,15 @@ const SignUp = ({ setUsername }) => {
 
   async function handleSignUpSubmit() {
     console.log("handleSignUpSubmit", username.current.value, password.current.value);
-    const signUpResponse = await signUp(username.current.value, password.current.value, fullName.current.value);
-    if(password.current.value === rePass.current.value && !(signUpResponse instanceof Promise) && signUpResponse) {
-      console.log("handleSignUpSubmit", username.current.value, password.current.value);
-      setUsername(username.current.value);
-      navigate("/blog", { replace: true });
+    if (password.current.value === rePass.current.value) {
+      const signUpResponse = await signUp(username.current.value, password.current.value, fullName.current.value);
+      if(!(signUpResponse instanceof Promise) && signUpResponse) {
+        console.log("handleSignUpSubmit", username.current.value, password.current.value);
+        setUsername(username.current.value);
+        window.location.replace('http://localhost:3000/blog');
+  
+        // navigate("/blog", { replace: true });
+      }
     }
   }
 

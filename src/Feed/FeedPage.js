@@ -50,11 +50,14 @@ const FeedPage = ({ username }) => {
 
     async function handleMoreInfoClick (projectId) {
         // setSelectedProject(projects.find(item => item.id === projectId));
-        const info = getProjectInfo(projectId);
-        if(info) {
+        const info = await getProjectInfo(projectId);
+
+        if(info !== -1) {
+            console.log(info)
+
             setSelectedProject(info);
+            setIsModeList(false);
         }
-        setIsModeList(false);
     }
 
     const handleExitMoreInfo = () => {

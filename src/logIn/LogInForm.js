@@ -10,7 +10,7 @@ const LogInForm = ({ name, pass, handleSubmit }) => {
         <h2 className="fw-bold mb-2 text-uppercase">Log-In</h2>
         <h6>Please Fill Your Info!</h6>
         <br></br>
-        <div className="login-form" onSubmit={handleSubmit}>
+        <div className="login-form">
           <form id="logInForm">
             <div className="form-floating form-white text-dark mb-4">
               <input type="text" ref={name} className="form-control" id="floatingInput" placeholder="Username" required autoFocus />
@@ -21,7 +21,7 @@ const LogInForm = ({ name, pass, handleSubmit }) => {
               <label htmlFor="floatingPassword">Password</label>
             </div>
             <div className="button-wrapper">
-              <Button variant="primary" type="submit">Login</Button>
+              <Button variant="primary" type="submit" onClick={handleSubmit}>Login</Button>
             </div>
           </form>
 

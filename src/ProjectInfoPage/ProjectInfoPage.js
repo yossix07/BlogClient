@@ -10,18 +10,11 @@ import { toggleLike } from "../DB"
 const ProjectInfoPage = ({ project, username, handleExit }) => {
 
     const [showComments, setShowComments] = useState(false);
-    const [comments, setComments] = useState([]);
     const comment = useRef("");
     
 
     useEffect(() => {
-        // get comments from DB 
-        setComments([
-            {"username":"user_1", "timestamp":"01/01/2022", "text":"hello world"},
-            {"username":"user_2", "timestamp":"11/03/2022", "text":"hello world"},
-            {"username":"user_3", "timestamp":"01/01/2000", "text":"user_3 first comment"},
-            {"username":"user_3", "timestamp":"01/01/2001", "text":"user_3 second comment"}
-            ])
+            console.log("project", project?.comments)
     },[]);
 
     const handleLikeClick = () => {
@@ -42,37 +35,35 @@ const ProjectInfoPage = ({ project, username, handleExit }) => {
         <div className="project-info-page">
             <Card className="text-center">
                 <Card.Header className="card-header" as="h5">
-                    <div className="project-name">{project.name}</div>
+                    <div className="project-name">{project.project.name}</div>
                     <Button className="exit-button" variant="danger" onClick={handleExit}>X</Button>
                 </Card.Header>
                 <Card.Body>
-                    <Card.Title>{project.description}</Card.Title>
+                    <Card.Title>{project.project.description}</Card.Title>
                     <ListGroup>
                         <div>Project Info-</div>
                         <ListGroup.Item variant="success"><span className="fw-bold">Project Created Timestamp-</span> </ListGroup.Item>
-                        <ListGroup.Item variant="success"><span className="fw-bold">Home Page Url-</span> {project.homepage_url}</ListGroup.Item>
-                        <ListGroup.Item variant="success"><span className="fw-bold">Platform-</span> {project.platform}</ListGroup.Item>
-                        <ListGroup.Item variant="success"><span className="fw-bold">Language-</span> {project.language}</ListGroup.Item>
-                        <ListGroup.Item variant="success"><span className="fw-bold">Status-</span> {project.status}</ListGroup.Item>
+                        <ListGroup.Item variant="success"><span className="fw-bold">Home Page Url-</span> {project.project.homepage_Url}</ListGroup.Item>
+                        <ListGroup.Item variant="success"><span className="fw-bold">Platform-</span> {project.project.platform}</ListGroup.Item>
+                        <ListGroup.Item variant="success"><span className="fw-bold">Language-</span> {project.project.language}</ListGroup.Item>
+                        <ListGroup.Item variant="success"><span className="fw-bold">Status-</span> {project.project.status}</ListGroup.Item>
                         <ListGroup.Item variant="success"><span className="fw-bold">Licenses-</span> </ListGroup.Item>
                         <div>Repository Info-</div>
-                        <ListGroup.Item variant="warning"><span className="fw-bold">Repository Url-</span> {project.repository_url}</ListGroup.Item>
-                        <ListGroup.Item variant="warning"><span className="fw-bold">Repository Name With Owner-</span> </ListGroup.Item>
-                        <ListGroup.Item variant="warning"><span className="fw-bold">Forkable?-</span> </ListGroup.Item>
-                        <ListGroup.Item variant="warning"><span className="fw-bold">Forks Count-</span> </ListGroup.Item>
-                        <ListGroup.Item variant="warning"><span className="fw-bold">Created Timestamp-</span> </ListGroup.Item>
-                        <ListGroup.Item variant="warning"><span className="fw-bold">Issues Enabled-</span> </ListGroup.Item>
-                        <ListGroup.Item variant="warning"><span className="fw-bold">Open Issues Count-</span> </ListGroup.Item>
-                        <ListGroup.Item variant="warning"><span className="fw-bold">Status-</span> </ListGroup.Item>
+                        <ListGroup.Item variant="warning"><span className="fw-bold">Repository Url-</span> {project.project.repository_Url}</ListGroup.Item>
+                        <ListGroup.Item variant="warning"><span className="fw-bold">Repository Name With Owner-</span>{project.repositories.name_With_Owner} </ListGroup.Item>
+                        <ListGroup.Item variant="warning"><span className="fw-bold">Forks Count-</span>{project.repositories.forks_count} </ListGroup.Item>
+                        <ListGroup.Item variant="warning"><span className="fw-bold">Created Timestamp-</span>{project.repositories.created_Timestamp} </ListGroup.Item>
+                        <ListGroup.Item variant="warning"><span className="fw-bold">Issues Enabled-</span>{project.repositories.issues_Enabled} </ListGroup.Item>
+                        <ListGroup.Item variant="warning"><span className="fw-bold">Open Issues Count-</span>{project.repositories.open_Issues_Count} </ListGroup.Item>
                         <div>Keywords-</div>
                         <div>Versions List-</div>
                     </ListGroup>
                 </Card.Body>
                 <div className="buttons-wrapper">
                     <Button variant="primary" onClick={handleLikeClick}>
-                        Likes <Badge bg="secondary">9</Badge>
+                        Likes <Badge bg="secondary">{project.project.likes_Count}</Badge>
                     </Button>
-                    <Button variant="primary" onClick={constCommentsClick}>Comments <Badge bg="secondary">3</Badge> </Button>
+                    <Button variant="primary" onClick={constCommentsClick}>Comments <Badge bg="secondary">{project.comments.length}</Badge> </Button>
                 </div>
             </Card>
             {showComments && 
@@ -83,8 +74,8 @@ const ProjectInfoPage = ({ project, username, handleExit }) => {
                         </Card.Header>
                     <Card.Body>
                         {
-                        comments?.map(comment =>
-                        <CommentItem username={comment.username} timestamp={comment.timestamp} text={comment.text}></CommentItem>)
+                        project.comments?.map((comment, index) =>
+                        <CommentItem key={index} username={comment.userName} timestamp={comment.time} text={comment.text}></CommentItem>)
                         }
                     </Card.Body>
                 </Card>
