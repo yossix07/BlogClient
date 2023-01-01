@@ -18,9 +18,9 @@ const ProjectItem = ({ project, handleClick }) => {
                 <ListGroup.Item variant="info"><span className="fw-bold">Project Status-</span> { project.status }</ListGroup.Item>
             </ListGroup>
             <Card.Footer className="likes-comments-wrapper">
-                <div className="likes">100 likes</div>
+                <div className="likes">{project.likes_Count} likes</div>
                 <Button variant="primary" onClick={()=> {handleClick(project.id)}}>More Information</Button>
-                <div className="comments">15 comments</div>
+                <div className="comments">{ project.comments_Count } comments</div>
             </Card.Footer>
         </Card>
     )

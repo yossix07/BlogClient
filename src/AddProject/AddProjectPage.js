@@ -1,29 +1,50 @@
-import Reactת ,{ useRef } from "react";
+import React ,{ useRef } from "react";
 import { Link } from "react-router-dom";
 import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
 import "./AddProjectPage.css";
+import Form from 'react-bootstrap/Form';
+import { addProject } from "../DB";
 
 const AddProjectPage = ({ username }) => { 
     const name = useRef("");
-    const projectCreatedTimeStamp = useRef("");
+    const description = useRef("");
     const homePageUrl = useRef("");
-    const platform = useRef("");
-    const language = useRef("");
-    const projectStatus = useRef("");
-    const licenses = useRef("");
     const repositoryUrl = useRef("");
+    const language = useRef("");
+    const hostType = useRef("");
     const repoNameWithOwner = useRef("");
-    const forkable = useRef("");
-    const forksCount = useRef("");
     const repoCreatedTimeStamp = useRef("");
-    const issuesEnabled = useRef("");
-    const openIssuesCount = useRef("");
-    const repoStatus = useRef("");
+    const size = useRef("");
+    const starsCount = useRef("");
+    const forksCount = useRef("");
+    const versions = useRef("");
+    var issuesEnabled = false;
 
+    const parseVersions = () => {
+        var versionsArray = []
+        const splitedString = (versions.current.value).split(/(\s+)/);
+        splitedString.map(version => {
+            if(version != " ") {
+                versionsArray.push({ "project_Id": 0, "number": version });
+            }
+        })
+        return versionsArray;
+    }
 
     const handleSubmit = () => {
-        // POST project to db
+
+        const versionsList = parseVersions();
+
+        if(addProject(name.current.value, description.current.value, repositoryUrl.current.value, language.current.value,
+            hostType.current.value, repoNameWithOwner.current.value, repoCreatedTimeStamp.current.value, size.current.value,
+            starsCount.current.value, issuesEnabled, forksCount.current.value, versionsList)) {
+                window.location.replace('http://localhost:3000/blog');
+        }
+    }
+
+    const hangleCheckboxChange = () => {
+        issuesEnabled = !issuesEnabled;
     }
     
     return (
@@ -41,8 +62,8 @@ const AddProjectPage = ({ username }) => {
                 </div>
 
                 <div className="form-floating form-white text-dark mb-4">
-                    <input ref={projectCreatedTimeStamp} id="projectCreatedTimeStamp" type="text" placeholder="Enter Project Created Timestamp" className="form-control" />
-                    <label htmlFor="projectCreatedTimeStamp" className="form-label">Project Created Timestamp</label>
+                    <input ref={description} id="description" type="text" placeholder="Enter Description" className="form-control" />
+                    <label htmlFor="description" className="form-label">Description</label>
                 </div>
 
                 <div className="form-floating form-white text-dark mb-4">
@@ -51,8 +72,8 @@ const AddProjectPage = ({ username }) => {
                 </div>
 
                 <div className="form-floating form-white text-dark mb-4">
-                    <input ref={platform} id="platform" type="text" placeholder="Enter Platform" className="form-control" />
-                    <label htmlFor="platform" className="form-label">Name</label>
+                    <input ref={repositoryUrl} id="repositoryUrl" type="text" placeholder="Enter Repository Url" className="form-control" />
+                    <label htmlFor="repositoryUrl" className="form-label">Repository Url</label>
                 </div>
 
                 <div className="form-floating form-white text-dark mb-4">
@@ -61,18 +82,8 @@ const AddProjectPage = ({ username }) => {
                 </div>
 
                 <div className="form-floating form-white text-dark mb-4">
-                    <input ref={projectStatus} id="platform" type="text" placeholder="Enter Project Status" className="form-control" />
-                    <label htmlFor="projectStatus" className="form-label">Project Status</label>
-                </div>
-
-                <div className="form-floating form-white text-dark mb-4">
-                    <input ref={licenses} id="licenses" type="text" placeholder="Enter Licenses" className="form-control" />
-                    <label htmlFor="licenses" className="form-label">Licenses</label>
-                </div>
-
-                <div className="form-floating form-white text-dark mb-4">
-                    <input ref={repositoryUrl} id="repositoryUrl" type="text" placeholder="Enter Repository Url" className="form-control" />
-                    <label htmlFor="repositoryUrl" className="form-label">Repository Url</label>
+                    <input ref={hostType} id="hostType" type="text" placeholder="Enter Host Type" className="form-control" />
+                    <label htmlFor="hostType" className="form-label">Name</label>
                 </div>
 
                 <div className="form-floating form-white text-dark mb-4">
@@ -80,25 +91,33 @@ const AddProjectPage = ({ username }) => {
                     <label htmlFor="repoNameWithOwner" className="form-label">Repository Name With Owner</label>
                 </div>
 
-                <div className="form-floating form-white text-dark mb-4">
-                    <input ref={forksCount} id="forksCount" type="text" placeholder="Enter Number Of Forks" className="form-control" />
-                    <label htmlFor="forksCount" className="form-label">Number Of Forks</label>
-                </div>
 
                 <div className="form-floating form-white text-dark mb-4">
                     <input ref={repoCreatedTimeStamp} id="repoCreatedTimeStamp" type="text" placeholder="Enter Repository Created Time Stamp" className="form-control" />
                     <label htmlFor="repoCreatedTimeStamp" className="form-label">Repository Created Time Stamp</label>
                 </div>
-
+                
                 <div className="form-floating form-white text-dark mb-4">
-                    <input ref={openIssuesCount} id="openIssuesCount" type="text" placeholder="Enter Number Of Open Issues" className="form-control" />
-                    <label htmlFor="openIssuesCount" className="form-label">Number Of Open Issues</label>
+                    <input ref={size} id="size" type="text" placeholder="Enter Repository Size" className="form-control" />
+                    <label htmlFor="size" className="form-label">Repository Size</label>
                 </div>
 
                 <div className="form-floating form-white text-dark mb-4">
-                    <input ref={repoStatus} id="repoStatus" type="text" placeholder="Enter Repository Status" className="form-control" />
-                    <label htmlFor="repoStatus" className="form-label">Repository Status</label>
+                    <input ref={starsCount} id="starsCount" type="text" placeholder="Enter Repository Stars Count" className="form-control" />
+                    <label htmlFor="starsCount" className="form-label">Repository Stars Count</label>
                 </div>
+
+                <div className="form-floating form-white text-dark mb-4">
+                    <input ref={versions} id="versions" type="text" placeholder="Enter Versions" className="form-control" />
+                    <label htmlFor="versions" className="form-label">Versions</label>
+                </div>
+
+                <div className="form-floating form-white text-dark mb-4">
+                    <input ref={forksCount} id="forksCount" type="text" placeholder="Enter Number Of Forks" className="form-control" />
+                    <label htmlFor="forksCount" className="form-label">Number Of Forks</label>
+                </div>
+
+                <Form.Check className="text-black" name="OpenIssues" type={'checkbox'} label={`Open Issues`} onChange={hangleCheckboxChange} />
 
                 <div className="button-wrapper">
                 <Button id="sumbitAddProjectForm" variant="primary" type="submit">Submit</Button>

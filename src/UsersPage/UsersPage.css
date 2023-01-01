@@ -1,0 +1,12 @@
+.users-page {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow-y: scroll;
+}
+
+.user-item {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

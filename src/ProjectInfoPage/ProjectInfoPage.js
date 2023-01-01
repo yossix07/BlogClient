@@ -12,9 +12,8 @@ const ProjectInfoPage = ({ project, username, handleExit }) => {
     const [showComments, setShowComments] = useState(false);
     const comment = useRef("");
     
-
     useEffect(() => {
-            console.log("project", project?.comments)
+            console.log("ProjectInfoPage", project?.comments)
     },[]);
 
     const handleLikeClick = () => {
@@ -55,7 +54,6 @@ const ProjectInfoPage = ({ project, username, handleExit }) => {
                         <ListGroup.Item variant="warning"><span className="fw-bold">Created Timestamp-</span>{project.repositories.created_Timestamp} </ListGroup.Item>
                         <ListGroup.Item variant="warning"><span className="fw-bold">Issues Enabled-</span>{project.repositories.issues_Enabled} </ListGroup.Item>
                         <ListGroup.Item variant="warning"><span className="fw-bold">Open Issues Count-</span>{project.repositories.open_Issues_Count} </ListGroup.Item>
-                        <div>Keywords-</div>
                         <div>Versions List-</div>
                     </ListGroup>
                 </Card.Body>

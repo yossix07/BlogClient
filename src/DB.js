@@ -20,21 +20,31 @@ export async function signUp(username, password, fullName) {
 export async function logIn(username, password) {
   const requestOptions = {
     method: 'POST',
-    
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ "UserName": username, "Password": password, "Full_Name": "string"})
   };
   try {
-    console.log("bbbb")
-
     const response = await fetch(urlPrefix + "Users/SignIn", requestOptions);
-    console.log("cccc")
     return response.status;
   } catch (error) {
-    console.log("dddd")
     console.error(error);
     return false;
   }
+}
+
+export async function getUsersWithMoreThanAvgCommentsNum() {
+  const requestOptions = {
+      method: 'Get',
+      headers: { 'Content-Type': 'application/json'}
+    };
+  
+    const response = await fetch(urlPrefix + "Users" , requestOptions);
+  
+    if(response.ok) {
+      const json = await response.json()
+      return json;
+    }
+  return -1;
 }
 
   export async function getAllProjects(start_index) {
@@ -49,22 +59,51 @@ export async function logIn(username, password) {
         const json = await response.json()
         return json;
       }
-      return -1;
-
-    // return [
-    //     { "id": 1, "name": "project_1", "homepage_url": "project_1.co.il", "repository_url": "git/project_1.com", "language": "English", "status": "In progress", "description": "Lorem ipsum dolor sit amet" },
-    //     { "id": 2, "name": "project_2", "homepage_url": "project_2.com", "repository_url": "bitbucket/project_2.com", "language": "Hebrew", "status": "Done", "description": "Lorem ipsum dolor sit amet" },
-    //     { "id": 3, "name": "project_3", "homepage_url": "project_3.org", "repository_url": "git/project_3.com", "language": "English", "status": "In progress", "description": "Lorem ipsum dolor sit amet" },
-    //     { "id": 4, "name": "project_4", "homepage_url": "project_4.com", "repository_url": "bitbucket/project_4.com", "language": "English", "status": "In progress", "description": "Lorem ipsum dolor sit amet" },
-    //     { "id": 5, "name": "project_5", "homepage_url": "project_5.com", "repository_url": "bitbucket/project_5.com", "language": "English", "status": "Done", "description": "Lorem ipsum dolor sit amet" },
-    //     { "id": 6, "name": "project_6", "homepage_url": "project_6.org", "repository_url": "git/project_6.com", "language": "English", "status": "Done", "description": "Lorem ipsum dolor sit amet" },
-    //     { "id": 7, "name": "project_7", "homepage_url": "project_7.co.il", "repository_url": "bitbucket/project_7.com", "language": "Hebrew", "status": "In progress", "description": "Lorem ipsum dolor sit amet" },
-    //     { "id": 8, "name": "project_8", "homepage_url": "project_8.com", "repository_url": "git/project_8.com", "language": "English", "status": "Done", "description": "Lorem ipsum dolor sit amet" },
-    // ]
+    return -1;
 }
 
-export async function addProject() {
-  // POST AddProject
+export async function addProject(projectName, createdTimestamp, description, homepageUrl, repositoryUrl, language, hostType,
+                                 nameWithOwner, repoCreatedTimestamp, size, starsCount, issuesEnabled, forksCount, versions) {
+
+  const requestOptions = {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json'},
+    body: JSON.stringify(
+      {
+        "project": {
+          "id": 0,
+          "name": projectName,
+          "created_Timestamp": createdTimestamp,
+          "description": description,
+          "homepage_Url": homepageUrl,
+          "repository_Url": repositoryUrl,
+          "language": language,
+          "repository_Id": 0,
+          "likes_Count": 0,
+          "comments_Count": 0
+        },
+        "repository": {
+          "id": 0,
+          "host_Type": hostType,
+          "name_With_Owner": nameWithOwner,
+          "created_Timestamp": repoCreatedTimestamp,
+          "size": size,
+          "stars_count": starsCount,
+          "issues_Enabled":issuesEnabled,
+          "forks_count": forksCount
+        },
+        "versions": versions,
+        "comments": []
+      }
+    )
+};
+
+  const response = await fetch(urlPrefix + "ProjectInfos", requestOptions);
+
+  if(response.ok) {
+    return true;
+  }
+  return false;
 }
 
 export async function getProjectInfo(id) {
@@ -89,12 +128,41 @@ export async function toggleLike(username, projectID, timestamp) {
         body: JSON.stringify({ "userName": username, "project_Id": projectID, "time": timestamp })
     };
     
-      const response = await fetch(urlPrefix + "/ToggleLike", requestOptions);
+      const response = await fetch(urlPrefix + "Likes/ToggleLike", requestOptions);
     
       if(response.ok) {
         return true;
       }
       return false;
+}
+
+export async function getProjectsUserDontLike(username, projectID) {
+  const requestOptions = {
+      method: 'GET',
+      headers: { 'Content-Type': 'application/json'}
+  };
+  
+    const response = await fetch(urlPrefix + "Likes/" + projectID + "," + username, requestOptions);
+  
+    if(response.ok) {
+      const json = await response.json()
+      return json;
+    }
+    return false;
+}
+
+export async function getProjectsWithHigherVersionAndMoreThanAvgForks(version, projectID) {
+  const requestOptions = {
+      method: 'GET',
+      headers: { 'Content-Type': 'application/json'}
+  };
+    const response = await fetch(urlPrefix + "Projects/" + projectID + "," + version, requestOptions);
+  
+    if(response.ok) {
+      const json = await response.json()
+      return json;
+    }
+    return false;
 }
 
 export async function addComment(username, projectID, timestamp, text) {
