@@ -35,8 +35,8 @@ const AddProjectPage = ({ username }) => {
     const handleSubmit = () => {
 
         const versionsList = parseVersions();
-
-        if(addProject(name.current.value, description.current.value, repositoryUrl.current.value, language.current.value,
+        const currentTimestamp = new Date().toISOString();
+        if(addProject(name.current.value, currentTimestamp, description.current.value, repositoryUrl.current.value, language.current.value,
             hostType.current.value, repoNameWithOwner.current.value, repoCreatedTimeStamp.current.value, size.current.value,
             starsCount.current.value, issuesEnabled, forksCount.current.value, versionsList)) {
                 window.location.replace('http://localhost:3000/blog');

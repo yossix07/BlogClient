@@ -5,7 +5,7 @@ import Card from 'react-bootstrap/Card';
 import ListGroup from 'react-bootstrap/ListGroup';
 import "./projectInfoPage.css";
 import CommentItem from "./CommentItem";
-import { toggleLike } from "../DB"
+import { toggleLike, addComment } from "../DB"
 
 const ProjectInfoPage = ({ project, username, handleExit }) => {
 
@@ -26,7 +26,8 @@ const ProjectInfoPage = ({ project, username, handleExit }) => {
     }
 
     async function hangleAddComment() {
-        console.log(comment.current.value);
+        const currentTimestamp = new Date().toISOString();
+        addComment(username, project.project.id, currentTimestamp, comment.current.value)
         comment.current.value = ""
     }
 
@@ -55,6 +56,10 @@ const ProjectInfoPage = ({ project, username, handleExit }) => {
                         <ListGroup.Item variant="warning"><span className="fw-bold">Issues Enabled-</span>{project.repositories.issues_Enabled} </ListGroup.Item>
                         <ListGroup.Item variant="warning"><span className="fw-bold">Open Issues Count-</span>{project.repositories.open_Issues_Count} </ListGroup.Item>
                         <div>Versions List-</div>
+                        {project && typeof project === 'object' && project.versions &&
+                        (project.versions).map(version => 
+                            <ListGroup.Item variant="info"><span className="fw-bold">Version-</span> {version.number}</ListGroup.Item>
+                        )}
                     </ListGroup>
                 </Card.Body>
                 <div className="buttons-wrapper">
