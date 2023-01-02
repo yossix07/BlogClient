@@ -25,8 +25,8 @@ const UsersPage = () => {
                 </Card.Title>
                 <Card.Body>
                 {users && typeof users === 'object' &&
-                    users.map(user => 
-                    <Card className="user-item">
+                    users.map((user, index) => 
+                    <Card key={index} className="user-item">
                         <Card.Body> {user.userName} </Card.Body>
                     </Card>
                 )}

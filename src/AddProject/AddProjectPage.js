@@ -14,7 +14,6 @@ const AddProjectPage = ({ username }) => {
     const language = useRef("");
     const hostType = useRef("");
     const repoNameWithOwner = useRef("");
-    const repoCreatedTimeStamp = useRef("");
     const size = useRef("");
     const starsCount = useRef("");
     const forksCount = useRef("");
@@ -36,9 +35,11 @@ const AddProjectPage = ({ username }) => {
 
         const versionsList = parseVersions();
         const currentTimestamp = new Date().toISOString();
-        if(addProject(name.current.value, currentTimestamp, description.current.value, repositoryUrl.current.value, language.current.value,
-            hostType.current.value, repoNameWithOwner.current.value, repoCreatedTimeStamp.current.value, size.current.value,
-            starsCount.current.value, issuesEnabled, forksCount.current.value, versionsList)) {
+        console.log("repoNameWithOwner in handle submit ", repoNameWithOwner.current.value, typeof repoNameWithOwner.current.value)
+
+        if(addProject(name.current.value, currentTimestamp, description.current.value, homePageUrl.current.value, repositoryUrl.current.value, language.current.value,
+            hostType.current.value, repoNameWithOwner.current.value, parseInt(size.current.value),
+            parseInt(starsCount.current.value), issuesEnabled, parseInt(forksCount.current.value), versionsList)) {
                 window.location.replace('http://localhost:3000/blog');
         }
     }
@@ -89,12 +90,6 @@ const AddProjectPage = ({ username }) => {
                 <div className="form-floating form-white text-dark mb-4">
                     <input ref={repoNameWithOwner} id="repoNameWithOwner" type="text" placeholder="Enter Repository Name With Owner" className="form-control" />
                     <label htmlFor="repoNameWithOwner" className="form-label">Repository Name With Owner</label>
-                </div>
-
-
-                <div className="form-floating form-white text-dark mb-4">
-                    <input ref={repoCreatedTimeStamp} id="repoCreatedTimeStamp" type="text" placeholder="Enter Repository Created Time Stamp" className="form-control" />
-                    <label htmlFor="repoCreatedTimeStamp" className="form-label">Repository Created Time Stamp</label>
                 </div>
                 
                 <div className="form-floating form-white text-dark mb-4">

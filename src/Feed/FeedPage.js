@@ -4,15 +4,16 @@ import { Button } from "react-bootstrap";
 import { getAllProjects, getProjectsUserDontLike, getProjectsWithHigherVersionAndMoreThanAvgForks, getProjectInfo } from "../DB";
 import "./feedPage.css";
 import ProjectInfoPage from "../ProjectInfoPage/ProjectInfoPage";
+import { getProjectNum } from "../DB"
 
-const FeedPage = ({ username }) => {
+const FeedPage = () => {
     const [projects, setProjects] = useState([]);
     const [projectIndex, setProjectsIndex] = useState(0);
     const [projectsQuery, setProjectsQuery] = useState(0);
     const queryVersion = useRef("");
     const [selectedProject, setSelectedProject] = useState(null);
     const [isModeList, setIsModeList] = useState(true);
-
+    var username = localStorage.getItem('username');
 
     const projectsBatch = 50;
 
@@ -22,13 +23,14 @@ const FeedPage = ({ username }) => {
                 setProjects(await getAllProjects(projectIndex));
             }
             if(projectsQuery === 1) {
-                setProjects(await getProjectsUserDontLike(username, projectIndex));
+                setProjects(await getProjectsUserDontLike(localStorage.getItem('username'), projectIndex));
             }
             if(projectsQuery === 2) {
                 setProjects(await getProjectsWithHigherVersionAndMoreThanAvgForks(queryVersion.current.value, projectIndex));
             }
         }
         fetchData();
+        console.log("username: ", localStorage.getItem('username'))
     }, []);
 
     useEffect(() => {
@@ -37,14 +39,14 @@ const FeedPage = ({ username }) => {
                 setProjects(await getAllProjects(projectIndex));
             }
             if(projectsQuery === 1) {
-                setProjects(await getProjectsUserDontLike(username, projectIndex));
+                setProjects(await getProjectsUserDontLike(localStorage.getItem('username'), projectIndex));
             }
             if(projectsQuery === 2) {
                 setProjects(await getProjectsWithHigherVersionAndMoreThanAvgForks(queryVersion.current.value, projectIndex));
             }
         }
         fetchData();
-    }, [projectsQuery]);
+    }, [projectsQuery, projectIndex]);
 
     async function handleMoreInfoClick (projectId) {
         const info = await getProjectInfo(projectId);
@@ -68,11 +70,9 @@ const FeedPage = ({ username }) => {
         window.location.replace('http://localhost:3000/users');
     }
 
-    function loadNextProjects() {
-
-        // get number of project from db
-        const numberOfProjects = 500;
-
+    async function loadNextProjects() {
+        const numberOfProjects = await getProjectNum();
+        console.log(numberOfProjects);
         if(projectIndex + projectsBatch > numberOfProjects - projectsBatch - 1) {
             setProjectsIndex(numberOfProjects - projectsBatch)
         } else {

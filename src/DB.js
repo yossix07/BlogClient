@@ -1,3 +1,5 @@
+import { type } from "@testing-library/user-event/dist/type";
+
 const myServer = "localhost";
 const myPort = 5113;
 const urlPrefix = "http://" + myServer + ":" + myPort + "/api/";
@@ -21,7 +23,7 @@ export async function logIn(username, password) {
   const requestOptions = {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ "UserName": username, "Password": password, "Full_Name": "string"})
+    body: JSON.stringify({ "UserName": username, "Password": password, "Full_Name": "string" })
   };
   try {
     const response = await fetch(urlPrefix + "Users/SignIn", requestOptions);
@@ -34,45 +36,60 @@ export async function logIn(username, password) {
 
 export async function getUsersWithMoreThanAvgCommentsNum() {
   const requestOptions = {
-      method: 'Get',
-      headers: { 'Content-Type': 'application/json'}
-    };
-  
-    const response = await fetch(urlPrefix + "Users" , requestOptions);
-  
-    if(response.ok) {
-      const json = await response.json()
-      return json;
-    }
+    method: 'Get',
+    headers: { 'Content-Type': 'application/json' }
+  };
+
+  const response = await fetch(urlPrefix + "Users", requestOptions);
+
+  if (response.ok) {
+    const json = await response.json()
+    return json;
+  }
   return -1;
 }
 
-  export async function getAllProjects(start_index) {
-    const requestOptions = {
-        method: 'Get',
-        headers: { 'Content-Type': 'application/json'}
-      };
-    
-      const response = await fetch(urlPrefix + "Projects/" + start_index , requestOptions);
-    
-      if(response.ok) {
-        const json = await response.json()
-        return json;
-      }
-    return -1;
+export async function getAllProjects(start_index) {
+  const requestOptions = {
+    method: 'Get',
+    headers: { 'Content-Type': 'application/json' }
+  };
+
+  const response = await fetch(urlPrefix + "Projects/" + start_index, requestOptions);
+
+  if (response.ok) {
+    const json = await response.json()
+    return json;
+  }
+  return -1;
+}
+
+export async function getProjectNum() {
+  const requestOptions = {
+    method: 'Get',
+    headers: { 'Content-Type': 'application/json' }
+  };
+
+  const response = await fetch(urlPrefix + "Projects/", requestOptions);
+
+  if (response.ok) {
+    const json = await response.text()
+    return json;
+  }
+  return -1;
 }
 
 export async function addProject(projectName, createdTimestamp, description, homepageUrl, repositoryUrl, language, hostType,
-                                 nameWithOwner, repoCreatedTimestamp, size, starsCount, issuesEnabled, forksCount, versions) {
-
-  const requestOptions = {
+  nameWithOwner, size, starsCount, issuesEnabled, forksCount, versions) {
+    console.log("issuesEnabled", issuesEnabled, typeof issuesEnabled)
+    const requestOptions = {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json'},
+    headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(
       {
         "project": {
           "id": 0,
-          "name": projectName,
+          "name":projectName,
           "created_Timestamp": createdTimestamp,
           "description": description,
           "homepage_Url": homepageUrl,
@@ -86,96 +103,100 @@ export async function addProject(projectName, createdTimestamp, description, hom
           "id": 0,
           "host_Type": hostType,
           "name_With_Owner": nameWithOwner,
-          "created_Timestamp": repoCreatedTimestamp,
           "size": size,
           "stars_count": starsCount,
-          "issues_Enabled":issuesEnabled,
+          "issues_Enabled": issuesEnabled,
           "forks_count": forksCount
         },
         "versions": versions,
         "comments": []
       }
     )
-};
-
+  };
+  console.log("before fetch")
   const response = await fetch(urlPrefix + "ProjectInfos", requestOptions);
+  console.log("after fetch")
 
-  if(response.ok) {
+  if (response.ok) {
     return true;
   }
   return false;
 }
 
 export async function getProjectInfo(id) {
-    const requestOptions = {
-        method: 'Get',
-        headers: { 'Content-Type': 'application/json'}
-    };
-    
-      const response = await fetch(urlPrefix + "ProjectInfos/" + id, requestOptions);
-    
-      if(response.ok) {
-        const json = await response.json()
-        return json;
-      }
-      return false;
+  const requestOptions = {
+    method: 'Get',
+    headers: { 'Content-Type': 'application/json' }
+  };
+
+  const response = await fetch(urlPrefix + "ProjectInfos/" + id, requestOptions);
+
+  if (response.ok) {
+    const json = await response.json()
+    return json;
+  }
+  return false;
 }
 
 export async function toggleLike(username, projectID, timestamp) {
-    const requestOptions = {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json'},
-        body: JSON.stringify({ "userName": username, "project_Id": projectID, "time": timestamp })
-    };
-    
-      const response = await fetch(urlPrefix + "Likes/ToggleLike", requestOptions);
-    
-      if(response.ok) {
-        return true;
-      }
-      return false;
+  console.log(username, typeof username)
+  console.log(projectID, typeof projectID)
+  console.log(timestamp, typeof timestamp)
+
+  const requestOptions = {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ "userName": username, "project_Id": projectID, "time": timestamp })
+  };
+
+  const response = await fetch(urlPrefix + "Likes/ToggleLike", requestOptions);
+
+  if (response.ok) {
+    return true;
+  }
+  return false;
 }
 
 export async function getProjectsUserDontLike(username, projectID) {
   const requestOptions = {
-      method: 'GET',
-      headers: { 'Content-Type': 'application/json'}
+    method: 'GET',
+    headers: { 'Content-Type': 'application/json' }
   };
-  
-    const response = await fetch(urlPrefix + "Likes/" + projectID + "," + username, requestOptions);
-  
-    if(response.ok) {
-      const json = await response.json()
-      return json;
-    }
-    return false;
+
+  const response = await fetch(urlPrefix + "Likes/" + projectID + "," + username, requestOptions);
+
+  if (response.ok) {
+    const json = await response.json()
+    return json;
+  }
+  return false;
 }
 
 export async function getProjectsWithHigherVersionAndMoreThanAvgForks(version, projectID) {
   const requestOptions = {
-      method: 'GET',
-      headers: { 'Content-Type': 'application/json'}
+    method: 'GET',
+    headers: { 'Content-Type': 'application/json' }
   };
-    const response = await fetch(urlPrefix + "Projects/" + projectID + "," + version, requestOptions);
-  
-    if(response.ok) {
-      const json = await response.json()
-      return json;
-    }
-    return false;
+  const response = await fetch(urlPrefix + "Projects/" + projectID + "," + version, requestOptions);
+
+  if (response.ok) {
+    const json = await response.json()
+    return json;
+  }
+  return false;
 }
 
 export async function addComment(username, projectID, timestamp, text) {
-    const requestOptions = {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json'},
-      body: JSON.stringify({ "userName": username, "project_Id": projectID, "text": text, "time": timestamp })
+  const requestOptions = {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ "userName": username, "project_Id": projectID, "text": text, "time": timestamp })
   };
 
-    const response = await fetch(urlPrefix + "/Comments/AddComment", requestOptions);
+  const response = await fetch(urlPrefix + "Comments/AddComment", requestOptions);
 
-    if(response.ok) {
-      return true;
-    }
-    return false;
+  if (response.ok) {
+    return true;
+  }
+  return false;
 }

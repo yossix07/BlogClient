@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { BrowserRouter, Route, Routes, } from "react-router-dom";
+import React from "react";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 import LogIn from "./logIn/Login";
 import SignUp from "./signUp/SignUp";
 import "./App.css"
@@ -9,22 +9,20 @@ import AddProjectPage from "./AddProject/AddProjectPage";
 import UsersPage from "./UsersPage/UsersPage";
 
 
-const App = () => {
-  
-  const [username, setUsername] = useState("");
-
+function App() {
+  console.log(1)
   return (
-    <>
+    <div>
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={ <LogIn setUsername={ setUsername }/> }></Route>
-          <Route path="/signup" element={ <SignUp setUsername={ setUsername }/> }></Route>
-          <Route path="/blog" element={<FeedPage username={ username }></FeedPage>}></Route>
-          <Route path="/addProject" element={<AddProjectPage username={ username }></AddProjectPage>}></Route>
-          <Route path="/users" element={<UsersPage/>}></Route>
+          <Route path='/' element={ <LogIn /> }></Route>
+          <Route path='/signup' element={ <SignUp /> }></Route>
+          <Route path='/blog' element={<FeedPage ></FeedPage>}></Route>
+          <Route path='/addProject' element={<AddProjectPage ></AddProjectPage>}></Route>
+          <Route path='/users' element={<UsersPage/>}></Route>
         </Routes>
       </BrowserRouter>
-    </>
+    </div>
   );
 }
 

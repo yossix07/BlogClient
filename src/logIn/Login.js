@@ -4,19 +4,21 @@ import LogInForm from "./LogInForm";
 import { logIn } from "../DB";
 import "./login.css";
 
-const LogIn = ({ setUsername }) => {
+const LogIn = () => {
   let navigate = useNavigate();
   const name = useRef("");
   const pass = useRef("");
-
+  console.log(2)
   async function handleSubmitLogIn() {
     const loginResponse = await logIn(name.current.value, pass.current.value);
 
     console.log("loginResponse", loginResponse);
       if(!(loginResponse instanceof Promise) && loginResponse === 200) {
-        setUsername(name.current.value);
+        localStorage.setItem('username', name.current.value);
+        console.log("user: ", name.current.value)
+        //navigate('/blog');
         window.location.replace('http://localhost:3000/blog');
-        // navigate("/blog", { replace: true });
+
       }
     };
 
