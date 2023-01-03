@@ -11,7 +11,7 @@ const SignUpForm = ({ username, password, rePass, fullName, handleSubmit }) => {
           <h6>Please Fill Your Info!</h6>
           <br></br>
 
-          <form id="signUpForm" noValidate>
+          <div id="signUpForm" noValidate>
             <div className="form-floating form-white text-dark mb-4">
               <input ref={username} id="SignUpUsername" type="text" placeholder="Enter Username" className="form-control" autoFocus />
               <label htmlFor="SignUpUsername" className="form-label">Username</label>
@@ -36,7 +36,7 @@ const SignUpForm = ({ username, password, rePass, fullName, handleSubmit }) => {
               <Button id="signUpButton" variant="primary" type="submit" onClick={handleSubmit}>Sign-Up</Button>
             </div>
 
-          </form>
+          </div>
           <br></br>
           <div className="login-wrapper">
             <span className="mb-0">Already Signed? &nbsp;</span>

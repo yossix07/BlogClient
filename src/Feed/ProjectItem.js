@@ -5,7 +5,6 @@ import ListGroup from 'react-bootstrap/ListGroup';
 import "./projectItem.css";
 
 const ProjectItem = ({ project, handleClick }) => {
-
     return (
         <Card className="text-center">
             <Card.Header className="fw-bold">{project.name}</Card.Header>
@@ -13,9 +12,8 @@ const ProjectItem = ({ project, handleClick }) => {
                 {project.description}
             </Card.Body>
             <ListGroup className="list-group-flush">
-                <ListGroup.Item variant="primary"><span className="fw-bold">Home Page Url-</span> { project.homepage_url }</ListGroup.Item>
-                <ListGroup.Item variant="warning"><span className="fw-bold">Home Repository Url-</span> { project.repository_url }</ListGroup.Item>
-                <ListGroup.Item variant="info"><span className="fw-bold">Project Status-</span> { project.status }</ListGroup.Item>
+                <ListGroup.Item variant="primary"><span className="fw-bold">Home Page Url-</span> { project.homepage_Url }</ListGroup.Item>
+                <ListGroup.Item variant="warning"><span className="fw-bold">Home Repository Url-</span> { project.repository_Url }</ListGroup.Item>
             </ListGroup>
             <Card.Footer className="likes-comments-wrapper">
                 <div className="likes">{project.likes_Count} likes</div>

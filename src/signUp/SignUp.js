@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import "./signUp.css";
 import { signUp } from "../DB";
 
-const SignUp = ({ setUsername }) => {
+const SignUp = () => {
   let navigate = useNavigate();
   const username = useRef("");
   const password = useRef("");
@@ -12,15 +12,13 @@ const SignUp = ({ setUsername }) => {
   const fullName = useRef("");
 
   async function handleSignUpSubmit() {
-    console.log("handleSignUpSubmit", username.current.value, password.current.value);
     if (password.current.value === rePass.current.value) {
       const signUpResponse = await signUp(username.current.value, password.current.value, fullName.current.value);
       if(!(signUpResponse instanceof Promise) && signUpResponse) {
-        console.log("handleSignUpSubmit", username.current.value, password.current.value);
-        setUsername(username.current.value);
-        window.location.replace('http://localhost:3000/blog');
+        localStorage.setItem('username', username.current.value)
+        //window.location.replace('http://localhost:3000/blog');
   
-        // navigate("/blog", { replace: true });
+        navigate("/blog");
       }
     }
   }

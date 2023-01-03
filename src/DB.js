@@ -81,7 +81,6 @@ export async function getProjectNum() {
 
 export async function addProject(projectName, createdTimestamp, description, homepageUrl, repositoryUrl, language, hostType,
   nameWithOwner, size, starsCount, issuesEnabled, forksCount, versions) {
-    console.log("issuesEnabled", issuesEnabled, typeof issuesEnabled)
     const requestOptions = {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
@@ -139,10 +138,6 @@ export async function getProjectInfo(id) {
 }
 
 export async function toggleLike(username, projectID, timestamp) {
-  console.log(username, typeof username)
-  console.log(projectID, typeof projectID)
-  console.log(timestamp, typeof timestamp)
-
   const requestOptions = {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
@@ -163,7 +158,7 @@ export async function getProjectsUserDontLike(username, projectID) {
     headers: { 'Content-Type': 'application/json' }
   };
 
-  const response = await fetch(urlPrefix + "Likes/" + projectID + "," + username, requestOptions);
+  const response = await fetch(urlPrefix + "Likes/" + username + "/" + projectID, requestOptions);
 
   if (response.ok) {
     const json = await response.json()
@@ -177,7 +172,7 @@ export async function getProjectsWithHigherVersionAndMoreThanAvgForks(version, p
     method: 'GET',
     headers: { 'Content-Type': 'application/json' }
   };
-  const response = await fetch(urlPrefix + "Projects/" + projectID + "," + version, requestOptions);
+  const response = await fetch(urlPrefix + "Projects/" + version + "/" + projectID, requestOptions);
 
   if (response.ok) {
     const json = await response.json()
@@ -193,7 +188,7 @@ export async function addComment(username, projectID, timestamp, text) {
     body: JSON.stringify({ "userName": username, "project_Id": projectID, "text": text, "time": timestamp })
   };
 
-  const response = await fetch(urlPrefix + "Comments/AddComment", requestOptions);
+  const response = await fetch(urlPrefix + "Comments/Comment", requestOptions);
 
   if (response.ok) {
     return true;
