@@ -73,7 +73,7 @@ const ProjectInfoPage = () => {
     return (
         <div className="project-info-page">
             {isValid &&
-                <Card className="text-center">
+                <Card className="info text-center">
                     <Card.Header className="card-header" as="h5">
                         <div className="project-name">{project.project.name}</div>
                         <Button className="exit-button" variant="danger" onClick={handleExit}>X</Button>

@@ -7,6 +7,10 @@
     align-items: center;
 }
 
+.info {
+    width: 40%;
+}
+
 .card-header {
     display: flex;
     justify-content: center;
@@ -30,6 +34,6 @@
 
 .comments-list {
     height: 500px;
-    width: 30%;
+    width: 40%;
     overflow: scroll;
 }
