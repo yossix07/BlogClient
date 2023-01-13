@@ -14,16 +14,15 @@ const SignUp = () => {
   async function handleSignUpSubmit() {
     if (password.current.value === rePass.current.value) {
       const signUpResponse = await signUp(username.current.value, password.current.value, fullName.current.value);
-      if(!(signUpResponse instanceof Promise) && signUpResponse) {
+      if (!(signUpResponse instanceof Promise) && signUpResponse == 200) {
         localStorage.setItem('username', username.current.value)
-        //window.location.replace('http://localhost:3000/blog');
-  
         navigate("/blog");
+      } else {
+        alert("Invalid values, try again!");
       }
     }
   }
 
-  
   return (
     <div className="sign-up-page">
       <SignUpForm username={username} password={password} rePass={rePass} fullName={fullName} handleSubmit={handleSignUpSubmit}></SignUpForm>

@@ -12,13 +12,13 @@ const LogIn = () => {
   async function handleSubmitLogIn() {
     const loginResponse = await logIn(name.current.value, pass.current.value);
 
-      if(!(loginResponse instanceof Promise) && loginResponse === 200) {
-        localStorage.setItem('username', name.current.value);
-        navigate('/blog');
-        //window.location.replace('http://localhost:3000/blog');
-
-      }
-    };
+    if (!(loginResponse instanceof Promise) && loginResponse === 200) {
+      localStorage.setItem('username', name.current.value);
+      navigate('/blog');
+    } else {
+      alert("Wrong username or password!");
+    }
+  };
 
   return (
     <div className="login-page">

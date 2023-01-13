@@ -1,5 +1,3 @@
-import { type } from "@testing-library/user-event/dist/type";
-
 const myServer = "localhost";
 const myPort = 5113;
 const urlPrefix = "http://" + myServer + ":" + myPort + "/api/";
@@ -81,14 +79,14 @@ export async function getProjectNum() {
 
 export async function addProject(projectName, createdTimestamp, description, homepageUrl, repositoryUrl, language, hostType,
   nameWithOwner, size, starsCount, issuesEnabled, forksCount, versions) {
-    const requestOptions = {
+  const requestOptions = {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(
       {
         "project": {
           "id": 0,
-          "name":projectName,
+          "name": projectName,
           "created_Timestamp": createdTimestamp,
           "description": description,
           "homepage_Url": homepageUrl,
@@ -112,9 +110,7 @@ export async function addProject(projectName, createdTimestamp, description, hom
       }
     )
   };
-  console.log("before fetch")
   const response = await fetch(urlPrefix + "ProjectInfos", requestOptions);
-  console.log("after fetch")
 
   if (response.ok) {
     return true;
@@ -188,10 +184,12 @@ export async function addComment(username, projectID, timestamp, text) {
     body: JSON.stringify({ "userName": username, "project_Id": projectID, "text": text, "time": timestamp })
   };
 
-  const response = await fetch(urlPrefix + "Comments/Comment", requestOptions);
-
-  if (response.ok) {
-    return true;
+  try {
+    const response = await fetch(urlPrefix + "Comments/Comment", requestOptions);
+    return response.status;
+  } catch (error) {
+    console.error(error);
+    return false;
   }
-  return false;
+
 }

@@ -16,11 +16,10 @@ const ProjectInfoPage = () => {
     const [showComments, setShowComments] = useState(false);
     const comment = useRef("");
     const [isValid, setIsValid] = useState(false);
-    
+
     useEffect(() => {
         async function fetchData() {
             const p = await getProjectInfo(localStorage.getItem("projectId"));
-            console.log("fetched project - ", p)
             setProject(p);
             if (p && typeof p === 'object') {
                 setComments(p.comments);
@@ -41,7 +40,7 @@ const ProjectInfoPage = () => {
     function handleLikeClick() {
         const currentTimestamp = new Date().toISOString();
         toggleLike(localStorage.getItem("username"), project?.project.id, currentTimestamp).then(result => {
-            if(result) {
+            if (result) {
                 getProjectInfo(localStorage.getItem("projectId")).then(p => {
                     setLikesCount(p.project.likes_Count)
                 })
@@ -56,12 +55,14 @@ const ProjectInfoPage = () => {
     async function hangleAddComment() {
         const username = localStorage.getItem("username");
         const currentTimestamp = new Date().toISOString();
-        if (addComment(username, project?.project.id, currentTimestamp, comment.current.value)) {
+        if (addComment(username, project?.project.id, currentTimestamp, comment.current.value) == 200) {
             getProjectInfo(project.project.id).then(p => {
                 setComments([{ "userName": username, "project_Id": project?.project.id, "text": comment.current.value, "time": currentTimestamp }, ...comments])
                 setProject(p);
                 comment.current.value = ""
             });
+        } else {
+            alert("Empty comment")
         }
     }
 
