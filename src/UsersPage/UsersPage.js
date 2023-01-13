@@ -1,10 +1,13 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useNavigate } from "react";
 import { getUsersWithMoreThanAvgCommentsNum } from "../DB"
 import { Button, Card } from "react-bootstrap";
 import "./UsersPage.css";
 
 const UsersPage = () => {
+    const navigate = useNavigate();
     const [users, setUsers ] = useState([]);
+
+    // fetch users
     useEffect(() => {
         async function fetchData() {
             setUsers(await getUsersWithMoreThanAvgCommentsNum());
@@ -12,8 +15,9 @@ const UsersPage = () => {
         fetchData();
     }, []);
 
+    // return to blog
     const handleExit = () => {
-        window.location.replace('http://localhost:3000/blog');
+        navigate('/blog');
     }
 
     return (

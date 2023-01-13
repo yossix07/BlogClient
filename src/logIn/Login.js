@@ -9,6 +9,7 @@ const LogIn = () => {
   const name = useRef("");
   const pass = useRef("");
 
+  // log in to server
   async function handleSubmitLogIn() {
     const loginResponse = await logIn(name.current.value, pass.current.value);
 

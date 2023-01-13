@@ -17,6 +17,7 @@ const ProjectInfoPage = () => {
     const comment = useRef("");
     const [isValid, setIsValid] = useState(false);
 
+    // fetch project info
     useEffect(() => {
         async function fetchData() {
             const p = await getProjectInfo(localStorage.getItem("projectId"));
@@ -29,6 +30,7 @@ const ProjectInfoPage = () => {
         fetchData();
     }, []);
 
+    // validate project info
     useEffect(() => {
         if (project && Object.keys(project).length > 0) {
             setIsValid(true);
@@ -37,6 +39,7 @@ const ProjectInfoPage = () => {
         }
     }, [project])
 
+    // toggle project like
     function handleLikeClick() {
         const currentTimestamp = new Date().toISOString();
         toggleLike(localStorage.getItem("username"), project?.project.id, currentTimestamp).then(result => {
@@ -48,10 +51,12 @@ const ProjectInfoPage = () => {
         })
     }
 
+    // display project's comments 
     const constCommentsClick = () => {
         setShowComments(!showComments);
     }
 
+    // add comment
     async function hangleAddComment() {
         const username = localStorage.getItem("username");
         const currentTimestamp = new Date().toISOString();
@@ -66,6 +71,7 @@ const ProjectInfoPage = () => {
         }
     }
 
+    // returns to the blog page
     const handleExit = () => {
         localStorage.setItem("projectId", -1);
         navigate('/blog');

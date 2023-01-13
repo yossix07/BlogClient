@@ -11,6 +11,7 @@ const SignUp = () => {
   const rePass = useRef("");
   const fullName = useRef("");
 
+  // sign up to server 
   async function handleSignUpSubmit() {
     if (password.current.value === rePass.current.value) {
       const signUpResponse = await signUp(username.current.value, password.current.value, fullName.current.value);

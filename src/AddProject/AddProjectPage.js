@@ -21,6 +21,7 @@ const AddProjectPage = () => {
     const versions = useRef("");
     var issuesEnabled = false;
 
+    // parse version string to an array and return it
     const parseVersions = () => {
         var versionsArray = []
         const splitedString = (versions.current.value).split(/(\s+)/);
@@ -32,6 +33,7 @@ const AddProjectPage = () => {
         return versionsArray;
     }
 
+    // add project in server
     async function handleSubmit() {
 
         const versionsList = parseVersions();

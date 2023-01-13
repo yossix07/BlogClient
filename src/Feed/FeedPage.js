@@ -15,51 +15,48 @@ const FeedPage = () => {
     const queryVersion = useRef("");
 
     const projectsBatch = 50;
-
-    useEffect(() => {
-        async function fetchData() {
-            if (projectsQuery === 0) {
-                setProjects(await getAllProjects(projectIndex));
-            }
-            if (projectsQuery === 1) {
-                setProjects(await getProjectsUserDontLike(localStorage.getItem('username'), projectIndex));
-            }
-            if (projectsQuery === 2) {
-                setProjects(await getProjectsWithHigherVersionAndMoreThanAvgForks(queryVersion.current.value, projectIndex));
-            }
+    
+    // fetch projects from server
+    async function fetchData() {
+        if (projectsQuery === 0) {
+            setProjects(await getAllProjects(projectIndex));
         }
+        if (projectsQuery === 1) {
+            setProjects(await getProjectsUserDontLike(localStorage.getItem('username'), projectIndex));
+        }
+        if (projectsQuery === 2) {
+            setProjects(await getProjectsWithHigherVersionAndMoreThanAvgForks(queryVersion.current.value, projectIndex));
+        }
+    }
+
+    // get all projects from server when page mount
+    useEffect(() => {
         setProjectsQuery(0);
         fetchData();
     }, []);
 
+    // get relavent projects when diffrent query is set or next/previous projects are required
     useEffect(() => {
-        async function fetchData() {
-            if (projectsQuery === 0) {
-                setProjects(await getAllProjects(projectIndex));
-            }
-            if (projectsQuery === 1) {
-                setProjects(await getProjectsUserDontLike(localStorage.getItem('username'), projectIndex));
-            }
-            if (projectsQuery === 2) {
-                setProjects(await getProjectsWithHigherVersionAndMoreThanAvgForks(queryVersion.current.value, projectIndex));
-            }
-        }
         fetchData();
     }, [projectsQuery, projectIndex, refresh]);
 
+    // display project info
     async function handleMoreInfoClick(projectId) {
         localStorage.setItem("projectId", projectId);
         navigate('/projectInfo');
     }
 
+    // go to add project page
     function handleAddProject() {
         navigate('/addProject');
     }
 
+    // go to users page
     function handleUsers() {
         navigate('/users');
     }
 
+    // get next projects
     async function loadNextProjects() {
         const numberOfProjects = await getProjectNum();
         if (projectIndex + projectsBatch > numberOfProjects - projectsBatch - 1) {
@@ -68,7 +65,7 @@ const FeedPage = () => {
             setProjectsIndex(projectIndex + projectsBatch);
         }
     }
-
+    // get previous projects
     function loadPreviousProjects() {
         if (projectIndex - projectsBatch < 0) {
             setProjectsIndex(0);
@@ -77,6 +74,7 @@ const FeedPage = () => {
         }
     }
 
+    // change qurey mode to 'versions' only when the button is clicked and input isn't empty
     const handleVersionQuery = (e) => {
         if (e.target.tagName === 'BUTTON') {
             if (queryVersion.current.value != "") {
