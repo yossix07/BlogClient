@@ -66,7 +66,7 @@ const AddProjectPage = () => {
                         <div id="addProjectForm" onSubmit={handleSubmit} noValidate>
                             <div className="form-floating form-white text-dark mb-4">
                                 <input ref={name} id="ProjectName" type="text" placeholder="Enter Project Name" className="form-control" autoFocus />
-                                <label htmlFor="ProjectName" className="form-label">Project Name(String)</label>
+                                <label htmlFor="ProjectName" className="form-label">Project Name(String) *Required</label>
                             </div>
 
                             <div className="form-floating form-white text-dark mb-4">
@@ -81,7 +81,7 @@ const AddProjectPage = () => {
 
                             <div className="form-floating form-white text-dark mb-4">
                                 <input ref={repositoryUrl} id="repositoryUrl" type="text" placeholder="Enter Repository Url" className="form-control" />
-                                <label htmlFor="repositoryUrl" className="form-label">Repository Url(String)</label>
+                                <label htmlFor="repositoryUrl" className="form-label">Repository Url(String) *Required</label>
                             </div>
 
                             <div className="form-floating form-white text-dark mb-4">
@@ -91,12 +91,12 @@ const AddProjectPage = () => {
 
                             <div className="form-floating form-white text-dark mb-4">
                                 <input ref={hostType} id="hostType" type="text" placeholder="Enter Host Type" className="form-control" />
-                                <label htmlFor="hostType" className="form-label">Host Type(String)</label>
+                                <label htmlFor="hostType" className="form-label">Host Type(String) *Required</label>
                             </div>
 
                             <div className="form-floating form-white text-dark mb-4">
                                 <input ref={repoNameWithOwner} id="repoNameWithOwner" type="text" placeholder="Enter Repository Name With Owner" className="form-control" />
-                                <label htmlFor="repoNameWithOwner" className="form-label">Repository Name With Owner(String)</label>
+                                <label htmlFor="repoNameWithOwner" className="form-label">Repository Name With Owner(String) *Required</label>
                             </div>
 
                             <div className="form-floating form-white text-dark mb-4">
