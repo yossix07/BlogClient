@@ -60,14 +60,14 @@ const ProjectInfoPage = () => {
     async function hangleAddComment() {
         const username = localStorage.getItem("username");
         const currentTimestamp = new Date().toISOString();
-        if (addComment(username, project?.project.id, currentTimestamp, comment.current.value) == 200) {
+        if (await addComment(username, project?.project.id, currentTimestamp, comment.current.value) == 200) {
             getProjectInfo(project.project.id).then(p => {
                 setComments([{ "userName": username, "project_Id": project?.project.id, "text": comment.current.value, "time": currentTimestamp }, ...comments])
                 setProject(p);
                 comment.current.value = ""
             });
         } else {
-            alert("Empty comment")
+            alert("Invalid comment")
         }
     }
 
